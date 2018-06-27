@@ -13,7 +13,8 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
         //hardcoded for development purposes
         //in production need to make values empty
         username: "Yehuda",
-        password: "1234"
+        password: "1234",
+        age: -1,
     };
 
     constructor(props:any) {
@@ -26,7 +27,7 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
     };
 
     handleSignInClick = () => {
-        fetch('http://localhost:3001/user', {
+        fetch('http://localhost:3001/sign_in', {
             method: 'POST',
             headers:{
                 'content-type': 'application/json'
@@ -39,7 +40,7 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
         .then((response)=> {
            //check authentication
             if (response.status === 403) {
-                alert("Incorrect username and password!");
+                alert("403 : Incorrect username and password!");
                 return;
             }
             //if authentication is successful
@@ -51,7 +52,29 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
     };
 
     handleSignUpClick = () => {
-
+        fetch('http://localhost:3001/sign_up', {
+            method: 'POST',
+            headers:{
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password,
+                age : this.state.age
+            })
+        })
+            .then((response)=> {
+                //check authentication
+                if (response.status === 500) {
+                    alert("500 : Internal server error!");
+                    return;
+                }
+                //if authentication is successful
+                //close modal
+                this.modalRef['current'].style.display = "none";
+                //update 'App' component about username
+                this.props.updateUserLoggedInCallBack(this.state.username)
+            });
     };
 
     public render() {

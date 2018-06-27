@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ChatTree from '../Logic/chat-tree'
+import ChatTree from '../chat-tree'
 import './TreeBar.css';
 
 interface ITreeProps {
@@ -19,15 +19,21 @@ class TreeBar extends React.Component <ITreeProps, {}>{
     }
 
     private createTree = () => {
-        fetch('./mock-DB/tree-data.json')
-            .then((response)=> {
-                return response.json();
-            })
-            .then((myJson)=>{
-                const chatTree =  ChatTree(this.ulRef['current']);
-                chatTree.on('currentChanged', this.onCurrentChanged);
-                chatTree.load(myJson);
-            });
+        fetch('http://localhost:3001/sign_up', {
+            method: 'POST',
+                headers:{
+                'content-type': 'application/json'
+            }
+        })
+        .then((response)=> {
+            console.log(JSON.stringify(response));
+            return response.json();
+        })
+        .then((myJson)=>{
+            const chatTree =  ChatTree(this.ulRef['current']);
+            chatTree.on('currentChanged', this.onCurrentChanged);
+            chatTree.load(myJson);
+        });
     };
 
     onCurrentChanged = (currentElement: any)=> {

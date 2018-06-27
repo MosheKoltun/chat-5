@@ -1,4 +1,4 @@
-import Events from "../Events";
+import Events from "./Events";
 
 export default
 function ChatTree(element) {
@@ -229,7 +229,7 @@ function ChatTree(element) {
     function handleClickEvent(event) {
         if(event.target && event.target.nodeName === "LI") {
             //remove background of previous selection
-            currentNode.style.backgroundColor = "antiquewhite";
+            currentNode.style.backgroundColor = "burlywood";
             //get index of clicked list item
             for (let j = 0; j < allListItems.length; j++) {
                 if (allListItems[j] === event.target) {
@@ -276,7 +276,7 @@ function ChatTree(element) {
         if (cursorIndex === allListItems.length - 1) {
             return;
         }
-        currentNode.style.backgroundColor = "antiquewhite";
+        currentNode.style.backgroundColor = "burlywood";
         cursorIndex++;
         currentNode = allListItems[cursorIndex];
         events.emit('currentChanged', [currentNode]);
@@ -288,7 +288,7 @@ function ChatTree(element) {
         if (cursorIndex === 0) {
             return;
         }
-        currentNode.style.backgroundColor = "antiquewhite";
+        currentNode.style.backgroundColor = "burlywood";
         cursorIndex--;
         currentNode = allListItems[cursorIndex];
         events.emit('currentChanged', [currentNode]);
