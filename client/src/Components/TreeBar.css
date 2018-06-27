@@ -1,4 +1,5 @@
 .treeBar {
+    width: 200px;
     background-color: antiquewhite;
 }
 .treeBar > ul {

@@ -25,23 +25,33 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    handleClick = () => {
-        fetch('./mock-DB/username-and-password-data.json')
-            .then((response)=> {
-                return response.json();
+    handleSignInClick = () => {
+        fetch('http://localhost:3001/user', {
+            method: 'POST',
+            headers:{
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password,
             })
-            .then((myJson)=>{
-                //check authentication
-                if (myJson[0][this.state.username] !== this.state.password) {
-                    alert("Incorrect username and password!");
-                    return;
-                }
-                //if authentication is successful
-                //close modal
-                this.modalRef['current'].style.display = "none";
-                //update 'App' component about username
-                this.props.updateUserLoggedInCallBack(this.state.username)
-            });
+        })
+        .then((response)=> {
+           //check authentication
+            if (response.status === 403) {
+                alert("Incorrect username and password!");
+                return;
+            }
+            //if authentication is successful
+            //close modal
+            this.modalRef['current'].style.display = "none";
+            //update 'App' component about username
+            this.props.updateUserLoggedInCallBack(this.state.username)
+        });
+    };
+
+    handleSignUpClick = () => {
+
     };
 
     public render() {
@@ -57,7 +67,8 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
                     <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.HandleInputChange} required/>
                     <div className="buttonsDiv">
                         <br/>
-                        <button type="button" onClick={this.handleClick}>Login</button>
+                        <button type="button" onClick={this.handleSignInClick}>Sign In</button>
+                        <button type="button" onClick={this.handleSignUpClick}>Sign Up</button>
                     </div>
                 </form>
             </div>

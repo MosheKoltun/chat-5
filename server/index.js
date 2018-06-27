@@ -1,11 +1,16 @@
+helpers = require("./helpers.js");
+
 const express = require('express');
 // const http = require('http');
+const cors = require('cors');
 
 // const serverr = http.createServer();
 
 const server = express();
 
 server.use(express.json());
+
+server.use(cors());
 
 server.use((req, res, next) => {
     console.log("A new user has entered the system");
@@ -30,11 +35,16 @@ server.get('/user', (req, res) => {
 });
 
 server.post('/user', (req, res) => {
-    res.status(200).send('Created user in the database');
+    const result = helpers.verifyUsernameAndPassword(req.body['username'] ,req.body['password']);
+    if (result) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(403);
+    }
 });
 
 server.put('/user', (req, res) => {
     res.status(200).send('Created user in the database without creating the same resource multiple times.');
 });
 
-server.listen(3000);
+server.listen(3001);

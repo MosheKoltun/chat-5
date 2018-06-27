@@ -4,6 +4,7 @@ import InputBar from './Components/InputBar';
 import {MessageBar} from './Components/MessageBar';
 import TreeBar from "./Components/TreeBar";
 import LoginModal from "./Components/LoginModal";
+import {SettingsMenu} from "./Components/SettingsMenu";
 
 //-------------------------------------------------------------------
 class App extends React.Component<any, any> {
@@ -14,11 +15,27 @@ class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            userLoggedIn : "",
-            currentUserOrGroup : "",
-            currentMessage : "",
+            userLoggedIn: "",
+            currentUserOrGroup: "",
+            currentMessage: "",
         }
     }
+//-------------------------------------------------------------------
+    public getServerMessagesHistory = () => {
+    // fetch('./mock-DB/tree-data.json')
+    //     .then((response)=> {
+    //         return response.json();
+    //     })
+    //     .then((myJson)=>{
+    //         const chatTree =  ChatTree(this.ulRef['current']);
+    //         chatTree.on('currentChanged', this.onCurrentChanged);
+    //         chatTree.load(myJson);
+    //     });
+    };
+//-------------------------------------------------------------------
+    public setServerMessagesHistory = () => {
+
+    };
 //-------------------------------------------------------------------
     public updateCurrentTreeElement = (currentElement : string) => {
         this.setState({currentUserOrGroup : currentElement});
@@ -38,7 +55,6 @@ class App extends React.Component<any, any> {
         }
         this.db[currentUserOrGroup].push({username: this.state['userLoggedIn'], message: message, time: formattedDate});
         console.log(this.db)
-        //update bubble
     };
 //-------------------------------------------------------------------
     public render() {
@@ -47,13 +63,18 @@ class App extends React.Component<any, any> {
             <>
                 <LoginModal updateUserLoggedInCallBack={this.updateUserLoggedIn}/>
                 <div className={"window"}>
-                    <div className={"left"}>
-                        <TreeBar updateCurrentTreeElementCallBack={this.updateCurrentTreeElement}/>
+                    <div className={"header"}>
+                        <p>Hi, {this.state.userLoggedIn}</p>
                     </div>
-
-                    <div className={"right"}>
-                        <MessageBar messagesDB={this.db[this.state.currentUserOrGroup]}/>
-                        <InputBar addNewMessageInputCallBack={this.addNewMessage}/>
+                    <div className={"content"}>
+                        <div className={"left"}>
+                            <SettingsMenu/>
+                            <TreeBar updateCurrentTreeElementCallBack={this.updateCurrentTreeElement}/>
+                        </div>
+                        <div className={"right"}>
+                            <MessageBar messagesDB={this.db[this.state.currentUserOrGroup]}/>
+                            <InputBar addNewMessageInputCallBack={this.addNewMessage}/>
+                        </div>
                     </div>
                 </div>
             </>

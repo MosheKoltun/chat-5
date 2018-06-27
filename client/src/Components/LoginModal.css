@@ -30,3 +30,7 @@ input[type=text], input[type=password] {
 .buttonsDiv {
     text-align:center;
 }
+
+button {
+    margin: 5px;
+}
