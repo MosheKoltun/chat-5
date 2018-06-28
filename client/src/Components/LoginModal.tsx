@@ -27,7 +27,7 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
     };
 
     handleSignInClick = () => {
-        fetch('http://localhost:3001/sign_in', {
+        fetch('http://localhost:3001/users/sign_in', {
             method: 'POST',
             headers:{
                 'content-type': 'application/json'
@@ -52,7 +52,7 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
     };
 
     handleSignUpClick = () => {
-        fetch('http://localhost:3001/sign_up', {
+        fetch('http://localhost:3001/users/sign_up', {
             method: 'POST',
             headers:{
                 'content-type': 'application/json'
@@ -63,18 +63,18 @@ class LoginModal extends React.Component <ILoginModalProps, {}> {
                 age : this.state.age
             })
         })
-            .then((response)=> {
-                //check authentication
-                if (response.status === 500) {
-                    alert("500 : Internal server error!");
-                    return;
-                }
-                //if authentication is successful
-                //close modal
-                this.modalRef['current'].style.display = "none";
-                //update 'App' component about username
-                this.props.updateUserLoggedInCallBack(this.state.username)
-            });
+        .then((response)=> {
+            //check authentication
+            if (response.status === 500) {
+                alert("500 : Internal server error!");
+                return;
+            }
+            //if authentication is successful
+            //close modal
+            this.modalRef['current'].style.display = "none";
+            //update 'App' component about username
+            this.props.updateUserLoggedInCallBack(this.state.username)
+        });
     };
 
     public render() {

@@ -9,7 +9,8 @@ import * as  express from  'express';
 // const http = require('http');
 import * as cors from 'cors';
 
-import * as userFuncs from '../Modules/users';
+import * as userFuncs from '../../client/src/Modules/users';
+import * as groupFuncs from '../../client/src/Modules/groups';
 import * as helpers from "./helpers";
 import * as fs from "fs";
 // const serverr = http.createServer();
@@ -49,6 +50,18 @@ server.post('/sign_in', (req, res) => {
 });
 
 server.post('/sign_up', (req, res) => {
+    const result = userFuncs.createNewUser(req.body['username'], req.body['password'], req.body['age']);
+    console.log("test")
+    if (result !== null) {
+        const fileContent = fs.readFileSync(__dirname + '/../mock-DB/tree-data.json', 'utf8');
+        const myJson = JSON.parse(fileContent);
+        console.log(JSON.stringify(myJson));
+        res.status(200).send(myJson);
+    } else {
+        res.sendStatus(500);
+    }});
+
+server.post('/create_tree', (req, res) => {
     const result = userFuncs.createNewUser(req.body['username'], req.body['password'], req.body['age']);
     console.log("test")
     if (result !== null) {

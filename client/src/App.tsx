@@ -68,7 +68,7 @@ class App extends React.Component<any, any> {
                     </div>
                     <div className={"content"}>
                         <div className={"left"}>
-                            <SettingsMenu/>
+                            <SettingsMenu currentElementInTree={this.state.currentUserOrGroup}/>
                             <TreeBar updateCurrentTreeElementCallBack={this.updateCurrentTreeElement}/>
                         </div>
                         <div className={"right"}>
